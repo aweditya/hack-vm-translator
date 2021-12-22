@@ -49,7 +49,29 @@ public class Parser {
      * @return
      */
     public String commandType() {
-        return "commandType";
+        if (currentCommand.isEmpty()) {
+            return "COMMENT_WHITESPACE";
+        } else {
+            String firstToken;
+            if (currentCommand.indexOf(' ') == -1) {
+                firstToken = currentCommand;
+            } else {
+                firstToken = currentCommand.substring(0, currentCommand.indexOf(' ')).trim();
+            }
+            return switch (firstToken) {
+                case "//" -> "COMMENT_WHITESPACE";
+                case "add", "sub", "neg", "eq", "gt", "lt", "and", "or", "not" -> "C_ARITHMETIC";
+                case "push" -> "C_PUSH";
+                case "pop" -> "C_POP";
+                case "label" -> "C_LABEL";
+                case "goto" -> "C_GOTO";
+                case "if-goto" -> "C_IF";
+                case "function" -> "C_FUNCTION";
+                case "call" -> "C_CALL";
+                case "return" -> "C_RETURN";
+                default -> "UNIDENTIFIED";
+            };
+        }
     }
 
     public String arg1() {
@@ -77,7 +99,7 @@ public class Parser {
     public static void main(String[] args) throws FileNotFoundException {
         File vmCode = new File("../MemoryAccess/BasicTest/BasicTest.vm");
         Parser parser = new Parser(vmCode);
-        parser.printFile();
-        // parser.printCommandType();
+        // parser.printFile();
+        parser.printCommandType();
     }
 }
