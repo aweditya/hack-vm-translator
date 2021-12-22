@@ -7,6 +7,7 @@ import java.io.IOException;
  */
 public class CodeWriter {
     private final BufferedWriter writer;
+    private int instructionPointer;
 
     /**
      * Opens the output file/stream and gets ready to write into it
@@ -15,6 +16,7 @@ public class CodeWriter {
      */
     public CodeWriter(FileWriter assemblyWriter) {
         writer = new BufferedWriter(assemblyWriter);
+        instructionPointer = 0;
     }
 
     /**
@@ -35,6 +37,7 @@ public class CodeWriter {
                 translation += "M=D+M\n";
                 translation += "@SP\n";
                 translation += "M=M+1\n";
+                instructionPointer += 8;
                 break;
             case "sub":
                 translation += "@SP\n";
@@ -45,6 +48,7 @@ public class CodeWriter {
                 translation += "M=M-D\n";
                 translation += "@SP\n";
                 translation += "M=M+1\n";
+                instructionPointer += 8;
                 break;
             case "neg":
                 translation += "@SP\n";
@@ -52,15 +56,64 @@ public class CodeWriter {
                 translation += "M=-M\n";
                 translation += "@SP\n";
                 translation += "M=M+1\n";
+                instructionPointer += 5;
                 break;
             case "eq":
-
+                translation += "@SP\n"; // 0
+                translation += "AM=M-1\n"; // 1
+                translation += "D=M\n"; // 2
+                translation += "@SP\n"; // 3
+                translation += "AM=M-1\n"; // 4
+                translation += "D=M-D\n"; // 5
+                translation += "@SP\n"; // 6
+                translation += "A=M\n"; // 7
+                translation += "@" + (instructionPointer + 13) + "\n"; // 8
+                translation += "D;JEQ\n"; // 9
+                translation += "M=-1\n"; // 10
+                translation += "@" + (instructionPointer + 14) + "\n"; // 11
+                translation += "0;JMP\n"; // 12
+                translation += "M=0\n"; // 13
+                translation += "@SP\n"; // 14
+                translation += "M=M+1\n"; // 15
+                instructionPointer += 16;
                 break;
             case "gt":
-
+                translation += "@SP\n"; // 0
+                translation += "AM=M-1\n"; // 1
+                translation += "D=M\n"; // 2
+                translation += "@SP\n"; // 3
+                translation += "AM=M-1\n"; // 4
+                translation += "D=M-D\n"; // 5
+                translation += "@SP\n"; // 6
+                translation += "A=M\n"; // 7
+                translation += "@" + (instructionPointer + 13) + "\n"; // 8
+                translation += "D;JGT\n"; // 9
+                translation += "M=-1\n"; // 10
+                translation += "@" + (instructionPointer + 14) + "\n"; // 11
+                translation += "0;JMP\n"; // 12
+                translation += "M=0\n"; // 13
+                translation += "@SP\n"; // 14
+                translation += "M=M+1\n"; // 15
+                instructionPointer += 16;
                 break;
             case "lt":
-
+                translation += "@SP\n"; // 0
+                translation += "AM=M-1\n"; // 1
+                translation += "D=M\n"; // 2
+                translation += "@SP\n"; // 3
+                translation += "AM=M-1\n"; // 4
+                translation += "D=M-D\n"; // 5
+                translation += "@SP\n"; // 6
+                translation += "A=M\n"; // 7
+                translation += "@" + (instructionPointer + 13) + "\n"; // 8
+                translation += "D;JLT\n"; // 9
+                translation += "M=-1\n"; // 10
+                translation += "@" + (instructionPointer + 14) + "\n"; // 11
+                translation += "0;JMP\n"; // 12
+                translation += "M=0\n"; // 13
+                translation += "@SP\n"; // 14
+                translation += "M=M+1\n"; // 15
+                instructionPointer += 16;
                 break;
             case "and":
                 translation += "@SP\n";
@@ -71,6 +124,7 @@ public class CodeWriter {
                 translation += "M=D&M\n";
                 translation += "@SP\n";
                 translation += "M=M+1\n";
+                instructionPointer += 8;
                 break;
             case "or":
                 translation += "@SP\n";
@@ -81,6 +135,7 @@ public class CodeWriter {
                 translation += "M=D|M\n";
                 translation += "@SP\n";
                 translation += "M=M+1\n";
+                instructionPointer += 8;
                 break;
             case "not":
                 translation += "@SP\n";
@@ -88,9 +143,11 @@ public class CodeWriter {
                 translation += "M=!M\n";
                 translation += "@SP\n";
                 translation += "M=M+1\n";
+                instructionPointer += 5;
                 break;
             default:
                 translation = "Not a valid arithmetic command\n";
+                instructionPointer += 1;
                 break;
         }
         writer.write(translation);
@@ -122,6 +179,7 @@ public class CodeWriter {
                     translation += "@M=D\n";
                     translation += "@SP\n"; // SP++
                     translation += "M=M+1\n";
+                    instructionPointer += 10;
                     break;
                 case "argument":
                 /*
@@ -137,6 +195,7 @@ public class CodeWriter {
                     translation += "@M=D\n";
                     translation += "@SP\n"; // SP++
                     translation += "M=M+1\n";
+                    instructionPointer += 10;
                     break;
                 case "this":
                 /*
@@ -152,6 +211,7 @@ public class CodeWriter {
                     translation += "@M=D\n";
                     translation += "@SP\n"; // SP++
                     translation += "M=M+1\n";
+                    instructionPointer += 10;
                     break;
                 case "that":
                 /*
@@ -167,6 +227,7 @@ public class CodeWriter {
                     translation += "@M=D\n";
                     translation += "@SP\n"; // SP++
                     translation += "M=M+1\n";
+                    instructionPointer += 10;
                     break;
                 case "constant":
                 /*
@@ -179,6 +240,7 @@ public class CodeWriter {
                     translation += "M=D";
                     translation += "@SP"; // SP++
                     translation += "M=M+1";
+                    instructionPointer += 7;
                     break;
                 case "static":
 
@@ -191,6 +253,7 @@ public class CodeWriter {
                     break;
                 default:
                     translation = "Not a valid segment\n";
+                    instructionPointer += 1;
                     break;
             }
         } else if (command.equals("pop")) {
@@ -198,7 +261,7 @@ public class CodeWriter {
                 /*
                 Logic: address = LCL + index; SP--; *address = *SP;
                  */
-                
+
             } else if (segment.equals("argument")) {
                 /*
                 Logic: address = ARG + index; SP--; *address = *SP;
@@ -222,9 +285,11 @@ public class CodeWriter {
 
             } else {
                 translation = "Not a valid segment\n";
+                instructionPointer += 1;
             }
         } else {
             translation = "Not a push/pop command\n";
+            instructionPointer += 1;
         }
         writer.write(translation);
     }
@@ -234,9 +299,5 @@ public class CodeWriter {
      */
     public void close() throws IOException {
         writer.close();
-    }
-
-    public static void main(String[] args) {
-
     }
 }
