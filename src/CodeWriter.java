@@ -241,6 +241,21 @@ public class CodeWriter {
                 case "static":
                     break;
                 case "pointer":
+                    // Logic: *SP = THIS/THAT; SP++;
+                    String thisOrThat = "";
+                    if (index == 0) {
+                        thisOrThat = "THIS";
+                    } else if (index == 1) {
+                        thisOrThat = "THAT";
+                    }
+                    translation += "@" + thisOrThat + "\n"; // D=THIS/THAT
+                    translation += "D=M\n";
+                    translation += "@SP\n"; // *SP=D
+                    translation += "A=M\n";
+                    translation += "M=D\n";
+                    translation += "@SP\n"; // SP++
+                    translation += "M=M+1\n";
+                    instructionPointer += 7;
                     break;
                 case "temp":
                     //  Logic: address = 5 + index; *SP = *address; SP++;
@@ -340,7 +355,19 @@ public class CodeWriter {
 
                     break;
                 case "pointer":
-
+                    // Logic: SP--; THIS/THAT = *SP;
+                    String thisOrThat = "";
+                    if (index == 0) {
+                        thisOrThat = "THIS";
+                    } else if (index == 1) {
+                        thisOrThat = "THAT";
+                    }
+                    translation += "@SP\n"; // SP--;
+                    translation += "AM=M-1\n";
+                    translation += "D=M\n"; // D=*SP;
+                    translation += "@" + thisOrThat + "\n"; // THIS/THAT=D;
+                    translation += "M=D\n";
+                    instructionPointer += 5;
                     break;
                 case "temp":
                     // Logic: address = 5 + index; SP--; *address = *SP;
