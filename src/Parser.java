@@ -147,10 +147,13 @@ public class Parser {
         }
     }
 
+    /*
     public static void main(String[] args) throws FileNotFoundException {
         File vmCode = new File("../StackArithmetic/StackTest/StackTest.vm");
         Parser parser = new Parser(vmCode);
         // parser.printFile();
         parser.printCommandType();
     }
+
+     */
 }
