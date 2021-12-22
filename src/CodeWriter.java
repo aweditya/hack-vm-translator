@@ -234,12 +234,12 @@ public class CodeWriter {
                 Logic: *SP = index; SP++;
                  */
                     translation += "@" + index + "\n"; // D=index
-                    translation += "D=A";
-                    translation += "@SP"; // *SP=D
-                    translation += "A=M";
-                    translation += "M=D";
-                    translation += "@SP"; // SP++
-                    translation += "M=M+1";
+                    translation += "D=A\n";
+                    translation += "@SP\n"; // *SP=D
+                    translation += "A=M\n";
+                    translation += "M=D\n";
+                    translation += "@SP\n"; // SP++
+                    translation += "M=M+1\n";
                     instructionPointer += 7;
                     break;
                 case "static":
