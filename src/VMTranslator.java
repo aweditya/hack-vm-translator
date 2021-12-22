@@ -1,15 +1,13 @@
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileWriter;
 import java.io.IOException;
 
 public class VMTranslator {
     private final Parser parser;
     private final CodeWriter codeWriter;
 
-    public VMTranslator(File vmCode, FileWriter assemblyWriter) throws FileNotFoundException {
+    public VMTranslator(File vmCode, String asmFileName) throws IOException {
         parser = new Parser(vmCode);
-        codeWriter = new CodeWriter(assemblyWriter);
+        codeWriter = new CodeWriter(asmFileName);
     }
 
     public void translateVMCodeToAssembly() throws IOException {
@@ -34,12 +32,11 @@ public class VMTranslator {
     }
 
     public static void main(String[] args) throws IOException {
-        String vmPath = "../StackArithmetic/SimpleAdd/SimpleAdd.vm";
+        String vmPath = "../MemoryAccess/PointerTest/PointerTest.vm";
         File vmCode = new File(vmPath);
 
-        String asmPath = vmPath.substring(0, vmPath.lastIndexOf('.')) + ".asm";
-        FileWriter assemblyWriter = new FileWriter(asmPath);
-        VMTranslator translator = new VMTranslator(vmCode, assemblyWriter);
+        String asmFileName = vmPath.substring(0, vmPath.lastIndexOf('.')) + ".asm";
+        VMTranslator translator = new VMTranslator(vmCode, asmFileName);
         translator.translateVMCodeToAssembly();
     }
 }
