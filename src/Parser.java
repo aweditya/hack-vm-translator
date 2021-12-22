@@ -13,6 +13,27 @@ public class Parser {
     private String currentCommand;
 
     /**
+     * Splits the current command into tokens delimited by whitespaces
+     * and returns a non-empty token at some given index
+     *
+     * @param tokenNumber
+     * @return
+     */
+    public String getToken(int tokenNumber) {
+        String[] tokens = currentCommand.split(" ");
+        int tokenCount = 0;
+        for (String token : tokens) {
+            if (!token.isEmpty()) {
+                tokenCount++;
+            }
+            if (tokenCount == tokenNumber) {
+                return token;
+            }
+        }
+        return "INVALID";
+    }
+
+    /**
      * Opens the input file/stream and gets ready to parse it
      *
      * @param vmCode
@@ -74,12 +95,36 @@ public class Parser {
         }
     }
 
+    /**
+     * Returns the first argument of the current command. In
+     * the case of C_ARITHMETIC, the command itself (add, sub,
+     * etc.) is returned. Should not be called if the current
+     * command is C_RETURN
+     *
+     * @return
+     */
     public String arg1() {
-        return "arg1";
+        if (commandType().equals("C_ARITHMETIC")) {
+            return currentCommand;
+        } else {
+            return getToken(2);
+        }
     }
 
+    /**
+     * Returns the second argument of the current command.
+     * Should be called only if the current command is C_PUSH,
+     * C_POP, C_FUNCTION, C_CALL
+     *
+     * @return
+     */
     public int arg2() {
-        return 0;
+        String thirdToken = getToken(3);
+        if (thirdToken.equals("INVALID")) {
+            return -1;
+        } else {
+            return Integer.parseInt(thirdToken);
+        }
     }
 
     public void printFile() {
@@ -92,12 +137,18 @@ public class Parser {
     public void printCommandType() {
         while (hasMoreCommands()) {
             advance();
-            System.out.println(commandType());
+            if (!(commandType().equals("C_RETURN") || commandType().equals("COMMENT_WHITESPACE"))) {
+                System.out.print(arg1());
+            }
+            if (commandType().equals("C_PUSH") || commandType().equals("C_POP") || commandType().equals("C_FUNCTION") || commandType().equals("C_CALL")) {
+                System.out.print("\t" + arg2());
+            }
+            System.out.println();
         }
     }
 
     public static void main(String[] args) throws FileNotFoundException {
-        File vmCode = new File("../MemoryAccess/BasicTest/BasicTest.vm");
+        File vmCode = new File("../StackArithmetic/StackTest/StackTest.vm");
         Parser parser = new Parser(vmCode);
         // parser.printFile();
         parser.printCommandType();
