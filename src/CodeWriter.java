@@ -28,7 +28,7 @@ public class CodeWriter {
     public void writeArithmetic(String command) throws IOException {
         String translation = "// " + command + "\n";
         switch (command) {
-            case "add":
+            case "add" -> {
                 translation += "@SP\n";
                 translation += "AM=M-1\n";
                 translation += "D=M\n";
@@ -38,8 +38,8 @@ public class CodeWriter {
                 translation += "@SP\n";
                 translation += "M=M+1\n";
                 instructionPointer += 8;
-                break;
-            case "sub":
+            }
+            case "sub" -> {
                 translation += "@SP\n";
                 translation += "AM=M-1\n";
                 translation += "D=M\n";
@@ -49,73 +49,79 @@ public class CodeWriter {
                 translation += "@SP\n";
                 translation += "M=M+1\n";
                 instructionPointer += 8;
-                break;
-            case "neg":
+            }
+            case "neg" -> {
                 translation += "@SP\n";
                 translation += "AM=M-1\n";
                 translation += "M=-M\n";
                 translation += "@SP\n";
                 translation += "M=M+1\n";
                 instructionPointer += 5;
-                break;
-            case "eq":
+            }
+            case "eq" -> {
                 translation += "@SP\n"; // 0
                 translation += "AM=M-1\n"; // 1
                 translation += "D=M\n"; // 2
                 translation += "@SP\n"; // 3
                 translation += "AM=M-1\n"; // 4
                 translation += "D=M-D\n"; // 5
-                translation += "@SP\n"; // 6
-                translation += "A=M\n"; // 7
-                translation += "@" + (instructionPointer + 13) + "\n"; // 8
-                translation += "D;JEQ\n"; // 9
-                translation += "M=-1\n"; // 10
-                translation += "@" + (instructionPointer + 14) + "\n"; // 11
+                translation += "@" + (instructionPointer + 13) + "\n"; // 6
+                translation += "D;JEQ\n"; // 7
+                translation += "@SP\n"; // 8
+                translation += "A=M\n"; // 9
+                translation += "M=0\n"; // 10
+                translation += "@" + (instructionPointer + 16) + "\n"; // 11
                 translation += "0;JMP\n"; // 12
-                translation += "M=0\n"; // 13
-                translation += "@SP\n"; // 14
-                translation += "M=M+1\n"; // 15
-                instructionPointer += 16;
-                break;
-            case "gt":
+                translation += "@SP\n"; // 13
+                translation += "A=M\n"; // 14
+                translation += "M=-1\n"; // 15
+                translation += "@SP\n"; // 16
+                translation += "M=M+1\n"; // 17
+                instructionPointer += 18;
+            }
+            case "gt" -> {
                 translation += "@SP\n"; // 0
                 translation += "AM=M-1\n"; // 1
                 translation += "D=M\n"; // 2
                 translation += "@SP\n"; // 3
                 translation += "AM=M-1\n"; // 4
                 translation += "D=M-D\n"; // 5
-                translation += "@SP\n"; // 6
-                translation += "A=M\n"; // 7
-                translation += "@" + (instructionPointer + 13) + "\n"; // 8
-                translation += "D;JGT\n"; // 9
-                translation += "M=-1\n"; // 10
-                translation += "@" + (instructionPointer + 14) + "\n"; // 11
+                translation += "@" + (instructionPointer + 13) + "\n"; // 6
+                translation += "D;JGT\n"; // 7
+                translation += "@SP\n"; // 8
+                translation += "A=M\n"; // 9
+                translation += "M=0\n"; // 10
+                translation += "@" + (instructionPointer + 16) + "\n"; // 11
                 translation += "0;JMP\n"; // 12
-                translation += "M=0\n"; // 13
-                translation += "@SP\n"; // 14
-                translation += "M=M+1\n"; // 15
-                instructionPointer += 16;
-                break;
-            case "lt":
+                translation += "@SP\n"; // 13
+                translation += "A=M\n"; // 14
+                translation += "M=-1\n"; // 15
+                translation += "@SP\n"; // 16
+                translation += "M=M+1\n"; // 17
+                instructionPointer += 18;
+            }
+            case "lt" -> {
                 translation += "@SP\n"; // 0
                 translation += "AM=M-1\n"; // 1
                 translation += "D=M\n"; // 2
                 translation += "@SP\n"; // 3
                 translation += "AM=M-1\n"; // 4
                 translation += "D=M-D\n"; // 5
-                translation += "@SP\n"; // 6
-                translation += "A=M\n"; // 7
-                translation += "@" + (instructionPointer + 13) + "\n"; // 8
-                translation += "D;JLT\n"; // 9
-                translation += "M=-1\n"; // 10
-                translation += "@" + (instructionPointer + 14) + "\n"; // 11
+                translation += "@" + (instructionPointer + 13) + "\n"; // 6
+                translation += "D;JLT\n"; // 7
+                translation += "@SP\n"; // 8
+                translation += "A=M\n"; // 9
+                translation += "M=0\n"; // 10
+                translation += "@" + (instructionPointer + 16) + "\n"; // 11
                 translation += "0;JMP\n"; // 12
-                translation += "M=0\n"; // 13
-                translation += "@SP\n"; // 14
-                translation += "M=M+1\n"; // 15
-                instructionPointer += 16;
-                break;
-            case "and":
+                translation += "@SP\n"; // 13
+                translation += "A=M\n"; // 14
+                translation += "M=-1\n"; // 15
+                translation += "@SP\n"; // 16
+                translation += "M=M+1\n"; // 17
+                instructionPointer += 18;
+            }
+            case "and" -> {
                 translation += "@SP\n";
                 translation += "AM=M-1\n";
                 translation += "D=M\n";
@@ -125,8 +131,8 @@ public class CodeWriter {
                 translation += "@SP\n";
                 translation += "M=M+1\n";
                 instructionPointer += 8;
-                break;
-            case "or":
+            }
+            case "or" -> {
                 translation += "@SP\n";
                 translation += "AM=M-1\n";
                 translation += "D=M\n";
@@ -136,19 +142,19 @@ public class CodeWriter {
                 translation += "@SP\n";
                 translation += "M=M+1\n";
                 instructionPointer += 8;
-                break;
-            case "not":
+            }
+            case "not" -> {
                 translation += "@SP\n";
                 translation += "AM=M-1\n";
                 translation += "M=!M\n";
                 translation += "@SP\n";
                 translation += "M=M+1\n";
                 instructionPointer += 5;
-                break;
-            default:
+            }
+            default -> {
                 translation = "Not a valid arithmetic command\n";
                 instructionPointer += 1;
-                break;
+            }
         }
         writer.write(translation);
     }
