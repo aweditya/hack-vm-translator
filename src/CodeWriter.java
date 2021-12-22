@@ -172,73 +172,63 @@ public class CodeWriter {
         if (command.equals("push")) {
             switch (segment) {
                 case "local":
-                /*
-                Logic: address = LCL + index; *SP = *address; SP++;
-                 */
+                    // Logic: address = LCL + index; *SP = *address; SP++;
                     translation += "@LCL\n"; // address=LCL+index
                     translation += "D=M\n";
                     translation += "@" + index + "\n";
-                    translation += "AD=D+A\n";
+                    translation += "A=D+A\n";
                     translation += "D=M\n";
                     translation += "@SP\n"; // *SP=*address
-                    translation += "@A=M\n";
-                    translation += "@M=D\n";
+                    translation += "A=M\n";
+                    translation += "M=D\n";
                     translation += "@SP\n"; // SP++
                     translation += "M=M+1\n";
                     instructionPointer += 10;
                     break;
                 case "argument":
-                /*
-                Logic: address = ARG + index; *SP = *address; SP++;
-                 */
+                    // Logic: address = ARG + index; *SP = *address; SP++;
                     translation += "@ARG\n"; // address=ARG+index
                     translation += "D=M\n";
                     translation += "@" + index + "\n";
-                    translation += "AD=D+A\n";
+                    translation += "A=D+A\n";
                     translation += "D=M\n";
                     translation += "@SP\n"; // *SP=*address
-                    translation += "@A=M\n";
-                    translation += "@M=D\n";
+                    translation += "A=M\n";
+                    translation += "M=D\n";
                     translation += "@SP\n"; // SP++
                     translation += "M=M+1\n";
                     instructionPointer += 10;
                     break;
                 case "this":
-                /*
-                Logic: address = THIS + index; *SP = *address; SP++;
-                 */
+                    // Logic: address = THIS + index; *SP = *address; SP++;
                     translation += "@THIS\n"; // address=THIS+index
                     translation += "D=M\n";
                     translation += "@" + index + "\n";
-                    translation += "AD=D+A\n";
+                    translation += "A=D+A\n";
                     translation += "D=M\n";
                     translation += "@SP\n"; // *SP=*address
-                    translation += "@A=M\n";
-                    translation += "@M=D\n";
+                    translation += "A=M\n";
+                    translation += "M=D\n";
                     translation += "@SP\n"; // SP++
                     translation += "M=M+1\n";
                     instructionPointer += 10;
                     break;
                 case "that":
-                /*
-                Logic: address = THAT + index; *SP = *address; SP++;
-                 */
+                    // Logic: address = THAT + index; *SP = *address; SP++;
                     translation += "@THAT\n"; // address=THAT+index
                     translation += "D=M\n";
                     translation += "@" + index + "\n";
-                    translation += "AD=D+A\n";
+                    translation += "A=D+A\n";
                     translation += "D=M\n";
                     translation += "@SP\n"; // *SP=*address
-                    translation += "@A=M\n";
-                    translation += "@M=D\n";
+                    translation += "A=M\n";
+                    translation += "M=D\n";
                     translation += "@SP\n"; // SP++
                     translation += "M=M+1\n";
                     instructionPointer += 10;
                     break;
                 case "constant":
-                /*
-                Logic: *SP = index; SP++;
-                 */
+                    // Logic: *SP = index; SP++;
                     translation += "@" + index + "\n"; // D=index
                     translation += "D=A\n";
                     translation += "@SP\n"; // *SP=D
@@ -249,49 +239,131 @@ public class CodeWriter {
                     instructionPointer += 7;
                     break;
                 case "static":
-
                     break;
                 case "pointer":
-
                     break;
                 case "temp":
-
+                    //  Logic: address = 5 + index; *SP = *address; SP++;
+                    translation += "@5\n"; // address=5+index
+                    translation += "D=A\n";
+                    translation += "@" + index + "\n";
+                    translation += "A=D+A\n";
+                    translation += "D=M\n";
+                    translation += "@SP\n"; // *SP=*address
+                    translation += "A=M\n";
+                    translation += "M=D\n";
+                    translation += "@SP\n"; // SP++
+                    translation += "M=M+1\n";
+                    instructionPointer += 10;
                     break;
+
                 default:
                     translation = "Not a valid segment\n";
                     instructionPointer += 1;
                     break;
             }
         } else if (command.equals("pop")) {
-            if (segment.equals("local")) {
-                /*
-                Logic: address = LCL + index; SP--; *address = *SP;
-                 */
+            switch (segment) {
+                case "local":
+                    // Logic: address = LCL + index; SP--; *address = *SP;
+                    translation += "@LCL\n";
+                    translation += "D=M\n";
+                    translation += "@" + index + "\n";
+                    translation += "D=D+A\n";
+                    translation += "@SP\n";
+                    translation += "A=M\n";
+                    translation += "M=D\n";
+                    translation += "@SP\n";
+                    translation += "AM=M-1\n";
+                    translation += "D=M\n";
+                    translation += "@SP\n";
+                    translation += "A=M+1\n";
+                    translation += "A=M\n";
+                    translation += "M=D\n";
+                    instructionPointer += 14;
+                    break;
+                case "argument":
+                    // Logic: address = ARG + index; SP--; *address = *SP;
+                    translation += "@ARG\n";
+                    translation += "D=M\n";
+                    translation += "@" + index + "\n";
+                    translation += "D=D+A\n";
+                    translation += "@SP\n";
+                    translation += "A=M\n";
+                    translation += "M=D\n";
+                    translation += "@SP\n";
+                    translation += "AM=M-1\n";
+                    translation += "D=M\n";
+                    translation += "@SP\n";
+                    translation += "A=M+1\n";
+                    translation += "A=M\n";
+                    translation += "M=D\n";
+                    instructionPointer += 14;
+                    break;
+                case "this":
+                    // Logic: address = THIS + index; SP--; *address = *SP;
+                    translation += "@THIS\n";
+                    translation += "D=M\n";
+                    translation += "@" + index + "\n";
+                    translation += "D=D+A\n";
+                    translation += "@SP\n";
+                    translation += "A=M\n";
+                    translation += "M=D\n";
+                    translation += "@SP\n";
+                    translation += "AM=M-1\n";
+                    translation += "D=M\n";
+                    translation += "@SP\n";
+                    translation += "A=M+1\n";
+                    translation += "A=M\n";
+                    translation += "M=D\n";
+                    instructionPointer += 14;
+                    break;
+                case "that":
+                    // Logic: address = THAT + index; SP--; *address = *SP;
+                    translation += "@THAT\n";
+                    translation += "D=M\n";
+                    translation += "@" + index + "\n";
+                    translation += "D=D+A\n";
+                    translation += "@SP\n";
+                    translation += "A=M\n";
+                    translation += "M=D\n";
+                    translation += "@SP\n";
+                    translation += "AM=M-1\n";
+                    translation += "D=M\n";
+                    translation += "@SP\n";
+                    translation += "A=M+1\n";
+                    translation += "A=M\n";
+                    translation += "M=D\n";
+                    instructionPointer += 14;
+                    break;
+                case "static":
 
-            } else if (segment.equals("argument")) {
-                /*
-                Logic: address = ARG + index; SP--; *address = *SP;
-                 */
+                    break;
+                case "pointer":
 
-            } else if (segment.equals("this")) {
-                /*
-                Logic: address = THIS + index; SP--; *address = *SP;
-                 */
-
-            } else if (segment.equals("that")) {
-                /*
-                Logic: address = THAT + index; SP--; *address = *SP;
-                 */
-
-            } else if (segment.equals("static")) {
-
-            } else if (segment.equals("pointer")) {
-
-            } else if (segment.equals("temp")) {
-
-            } else {
-                translation = "Not a valid segment\n";
-                instructionPointer += 1;
+                    break;
+                case "temp":
+                    // Logic: address = 5 + index; SP--; *address = *SP;
+                    translation += "@5\n";
+                    translation += "D=A\n";
+                    translation += "@" + index + "\n";
+                    translation += "D=D+A\n";
+                    translation += "@SP\n";
+                    translation += "A=M\n";
+                    translation += "M=D\n";
+                    translation += "@SP\n";
+                    translation += "AM=M-1\n";
+                    translation += "D=M\n";
+                    translation += "@SP\n";
+                    translation += "A=M+1\n";
+                    translation += "A=M\n";
+                    translation += "M=D\n";
+                    instructionPointer += 14;
+                    break;
+                default:
+                    translation = "Not a valid segment\n";
+                    instructionPointer += 1;
+                    break;
             }
         } else {
             translation = "Not a push/pop command\n";
