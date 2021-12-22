@@ -12,9 +12,10 @@ public class CodeWriter {
     /**
      * Opens the output file/stream and gets ready to write into it
      *
-     * @param assemblyWriter
+     * @param asmFileName
      */
-    public CodeWriter(FileWriter assemblyWriter) {
+    public CodeWriter(String asmFileName) throws IOException {
+        FileWriter assemblyWriter = new FileWriter(asmFileName);
         writer = new BufferedWriter(assemblyWriter);
         instructionPointer = 0;
     }
