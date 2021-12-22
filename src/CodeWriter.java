@@ -8,6 +8,7 @@ import java.io.IOException;
 public class CodeWriter {
     private final BufferedWriter writer;
     private int instructionPointer;
+    private final String asmFileName;
 
     /**
      * Opens the output file/stream and gets ready to write into it
@@ -18,6 +19,7 @@ public class CodeWriter {
         FileWriter assemblyWriter = new FileWriter(asmFileName);
         writer = new BufferedWriter(assemblyWriter);
         instructionPointer = 0;
+        this.asmFileName = asmFileName.substring(asmFileName.lastIndexOf('/') + 1);
     }
 
     /**
@@ -240,6 +242,14 @@ public class CodeWriter {
                     instructionPointer += 7;
                     break;
                 case "static":
+                    translation += "@" + asmFileName + "." + index + "\n";
+                    translation += "D=M\n";
+                    translation += "@SP\n";
+                    translation += "A=M\n";
+                    translation += "M=D\n";
+                    translation += "@SP\n";
+                    translation += "M=M+1\n";
+                    instructionPointer += 7;
                     break;
                 case "pointer":
                     // Logic: *SP = THIS/THAT; SP++;
@@ -353,7 +363,12 @@ public class CodeWriter {
                     instructionPointer += 14;
                     break;
                 case "static":
-
+                    translation += "@SP\n";
+                    translation += "AM=M-1\n";
+                    translation += "D=M\n";
+                    translation += "@" + asmFileName + "." + index + "\n";
+                    translation += "M=D\n";
+                    instructionPointer += 5;
                     break;
                 case "pointer":
                     // Logic: SP--; THIS/THAT = *SP;
