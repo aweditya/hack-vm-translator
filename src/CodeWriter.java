@@ -381,6 +381,7 @@ public class CodeWriter {
     public void writeLabel(String label) throws IOException {
         String translation = "// label " + label + "\n";
         translation += "(" + label + ")\n";
+        instructionPointer += 1;
         writer.write(translation);
     }
 
@@ -388,6 +389,18 @@ public class CodeWriter {
         String translation = "// goto " + label + "\n";
         translation += "@" + label + "\n";
         translation += "0;JMP\n";
+        instructionPointer += 2;
+        writer.write(translation);
+    }
+
+    public void writeIf(String label) throws IOException {
+        String translation = "// if-goto " + label + "\n";
+        translation += "@SP\n";
+        translation += "AM=M-1\n";
+        translation += "D=M\n";
+        translation += "@" + label + "\n";
+        translation += "D;JNE\n";
+        instructionPointer += 5;
         writer.write(translation);
     }
 
