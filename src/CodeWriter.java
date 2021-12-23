@@ -297,16 +297,11 @@ public class CodeWriter {
                     translation += "@" + index + "\n";
                     translation += "D=D+A\n";
                     translation += "@SP\n";
-                    translation += "A=M\n";
-                    translation += "M=D\n";
-                    translation += "@SP\n";
                     translation += "AM=M-1\n";
-                    translation += "D=M\n";
-                    translation += "@SP\n";
-                    translation += "A=M+1\n";
-                    translation += "A=M\n";
-                    translation += "M=D\n";
-                    instructionPointer += 14;
+                    translation += "D=D+M\n";
+                    translation += "A=D-M\n";
+                    translation += "M=D-A\n";
+                    instructionPointer += 9;
                     break;
                 case "argument":
                     // Logic: address = ARG + index; SP--; *address = *SP;
@@ -315,16 +310,11 @@ public class CodeWriter {
                     translation += "@" + index + "\n";
                     translation += "D=D+A\n";
                     translation += "@SP\n";
-                    translation += "A=M\n";
-                    translation += "M=D\n";
-                    translation += "@SP\n";
                     translation += "AM=M-1\n";
-                    translation += "D=M\n";
-                    translation += "@SP\n";
-                    translation += "A=M+1\n";
-                    translation += "A=M\n";
-                    translation += "M=D\n";
-                    instructionPointer += 14;
+                    translation += "D=D+M\n";
+                    translation += "A=D-M\n";
+                    translation += "M=D-A\n";
+                    instructionPointer += 9;
                     break;
                 case "this":
                     // Logic: address = THIS + index; SP--; *address = *SP;
@@ -333,16 +323,11 @@ public class CodeWriter {
                     translation += "@" + index + "\n";
                     translation += "D=D+A\n";
                     translation += "@SP\n";
-                    translation += "A=M\n";
-                    translation += "M=D\n";
-                    translation += "@SP\n";
                     translation += "AM=M-1\n";
-                    translation += "D=M\n";
-                    translation += "@SP\n";
-                    translation += "A=M+1\n";
-                    translation += "A=M\n";
-                    translation += "M=D\n";
-                    instructionPointer += 14;
+                    translation += "D=D+M\n";
+                    translation += "A=D-M\n";
+                    translation += "M=D-A\n";
+                    instructionPointer += 9;
                     break;
                 case "that":
                     // Logic: address = THAT + index; SP--; *address = *SP;
@@ -351,16 +336,11 @@ public class CodeWriter {
                     translation += "@" + index + "\n";
                     translation += "D=D+A\n";
                     translation += "@SP\n";
-                    translation += "A=M\n";
-                    translation += "M=D\n";
-                    translation += "@SP\n";
                     translation += "AM=M-1\n";
-                    translation += "D=M\n";
-                    translation += "@SP\n";
-                    translation += "A=M+1\n";
-                    translation += "A=M\n";
-                    translation += "M=D\n";
-                    instructionPointer += 14;
+                    translation += "D=D+M\n";
+                    translation += "A=D-M\n";
+                    translation += "M=D-A\n";
+                    instructionPointer += 9;
                     break;
                 case "static":
                     translation += "@SP\n";
