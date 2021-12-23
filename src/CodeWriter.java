@@ -378,6 +378,12 @@ public class CodeWriter {
         writer.write(translation);
     }
 
+    public void writeLabel(String label) throws IOException {
+        String translation = "// label " + label + "\n";
+        translation += "(" + label + ")\n";
+        writer.write(translation);
+    }
+
     /**
      * Closes the output file
      */
