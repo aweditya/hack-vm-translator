@@ -384,6 +384,13 @@ public class CodeWriter {
         writer.write(translation);
     }
 
+    public void writeGoto(String label) throws IOException {
+        String translation = "// goto " + label + "\n";
+        translation += "@" + label + "\n";
+        translation += "0;JMP\n";
+        writer.write(translation);
+    }
+
     /**
      * Closes the output file
      */
