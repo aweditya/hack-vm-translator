@@ -36,22 +36,18 @@ public class CodeWriter {
                 translation += "AM=M-1\n";
                 translation += "D=M\n";
                 translation += "@SP\n";
-                translation += "AM=M-1\n";
+                translation += "A=M-1\n";
                 translation += "M=D+M\n";
-                translation += "@SP\n";
-                translation += "M=M+1\n";
-                instructionPointer += 8;
+                instructionPointer += 6;
             }
             case "sub" -> {
                 translation += "@SP\n";
                 translation += "AM=M-1\n";
                 translation += "D=M\n";
                 translation += "@SP\n";
-                translation += "AM=M-1\n";
+                translation += "A=M-1\n";
                 translation += "M=M-D\n";
-                translation += "@SP\n";
-                translation += "M=M+1\n";
-                instructionPointer += 8;
+                instructionPointer += 6;
             }
             case "neg" -> {
                 translation += "@SP\n";
@@ -127,30 +123,24 @@ public class CodeWriter {
                 translation += "AM=M-1\n";
                 translation += "D=M\n";
                 translation += "@SP\n";
-                translation += "AM=M-1\n";
+                translation += "A=M-1\n";
                 translation += "M=D&M\n";
-                translation += "@SP\n";
-                translation += "M=M+1\n";
-                instructionPointer += 8;
+                instructionPointer += 6;
             }
             case "or" -> {
                 translation += "@SP\n";
                 translation += "AM=M-1\n";
                 translation += "D=M\n";
                 translation += "@SP\n";
-                translation += "AM=M-1\n";
+                translation += "A=M-1\n";
                 translation += "M=D|M\n";
-                translation += "@SP\n";
-                translation += "M=M+1\n";
-                instructionPointer += 8;
+                instructionPointer += 6;
             }
             case "not" -> {
                 translation += "@SP\n";
-                translation += "AM=M-1\n";
+                translation += "A=M-1\n";
                 translation += "M=!M\n";
-                translation += "@SP\n";
-                translation += "M=M+1\n";
-                instructionPointer += 5;
+                instructionPointer += 3;
             }
             default -> {
                 translation = "Not a valid arithmetic command\n";
