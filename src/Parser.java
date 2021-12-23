@@ -27,7 +27,7 @@ public class Parser {
                 tokenCount++;
             }
             if (tokenCount == tokenNumber) {
-                return token;
+                return token.trim();
             }
         }
         return "INVALID";
@@ -59,7 +59,7 @@ public class Parser {
      * is true. Initially there is no current command
      */
     public void advance() {
-        currentCommand = scanner.nextLine().toLowerCase().trim();
+        currentCommand = scanner.nextLine().trim();
     }
 
     /**
@@ -147,13 +147,13 @@ public class Parser {
         }
     }
 
-    /*
+/*
     public static void main(String[] args) throws FileNotFoundException {
-        File vmCode = new File("../StackArithmetic/StackTest/StackTest.vm");
+        File vmCode = new File("../08/ProgramFlow/BasicLoop/BasicLoop.vm");
         Parser parser = new Parser(vmCode);
         // parser.printFile();
         parser.printCommandType();
     }
-
-     */
+    
+ */
 }
