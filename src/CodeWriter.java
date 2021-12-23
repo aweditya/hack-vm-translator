@@ -55,11 +55,9 @@ public class CodeWriter {
             }
             case "neg" -> {
                 translation += "@SP\n";
-                translation += "AM=M-1\n";
+                translation += "A=M-1\n";
                 translation += "M=-M\n";
-                translation += "@SP\n";
-                translation += "M=M+1\n";
-                instructionPointer += 5;
+                instructionPointer += 3;
             }
             case "eq" -> {
                 translation += "@SP\n"; // 0
