@@ -363,7 +363,6 @@ public class CodeWriter {
     public void writeLabel(String label) throws IOException {
         String translation = "// label " + label + "\n";
         translation += "(" + label + ")\n";
-        instructionPointer += 1;
         writer.write(translation);
     }
 
