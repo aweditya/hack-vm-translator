@@ -62,14 +62,13 @@ public class CodeWriter {
                 translation += "@SP\n"; // 3
                 translation += "A=M-1\n"; // 4
                 translation += "D=M-D\n"; // 5
-                translation += "D=!D\n"; // 6
-                translation += "@" + (instructionPointer + 10) + "\n"; // 7
-                translation += "!D;JEQ\n"; // 8
-                translation += "D=0\n"; // 9
-                translation += "@SP\n"; // 10
-                translation += "A=M-1\n"; // 11
-                translation += "M=D\n"; // 12
-                instructionPointer += 13;
+                translation += "M=-1\n"; // 6
+                translation += "@" + (instructionPointer + 12) + "\n"; // 7
+                translation += "D;JEQ\n"; // 8
+                translation += "@SP\n"; // 9
+                translation += "A=M-1\n"; // 10
+                translation += "M=0\n"; // 11
+                instructionPointer += 12;
             }
             case "gt" -> {
                 translation += "@SP\n"; // 0
