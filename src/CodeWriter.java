@@ -23,6 +23,25 @@ public class CodeWriter {
     }
 
     /**
+     * Informs the codeWriter that the translation of a new VM file
+     * has started (called by the main program of the VM translator)
+     *
+     * @param filename
+     */
+    public void setFileName(String filename) {
+
+    }
+
+    /**
+     * Writes the assembly instructions that effect the bootstrap code
+     * that initializes the VM. This code must be placed at the beginning
+     * of the generated *.asm file
+     */
+    public void writeInit() {
+
+    }
+
+    /**
      * Writes to the output file the assembly code that implements
      * the given arithmetic command
      *
@@ -360,12 +379,24 @@ public class CodeWriter {
         writer.write(translation);
     }
 
+    /**
+     * Writes assembly code that effects the label command
+     *
+     * @param label
+     * @throws IOException
+     */
     public void writeLabel(String label) throws IOException {
         String translation = "// label " + label + "\n";
         translation += "(" + label + ")\n";
         writer.write(translation);
     }
 
+    /**
+     * Writes assembly code that effects the goto command
+     *
+     * @param label
+     * @throws IOException
+     */
     public void writeGoto(String label) throws IOException {
         String translation = "// goto " + label + "\n";
         translation += "@" + label + "\n";
@@ -374,6 +405,12 @@ public class CodeWriter {
         writer.write(translation);
     }
 
+    /**
+     * Writes assembly code that effects the if-goto command
+     *
+     * @param label
+     * @throws IOException
+     */
     public void writeIf(String label) throws IOException {
         String translation = "// if-goto " + label + "\n";
         translation += "@SP\n";
@@ -383,6 +420,33 @@ public class CodeWriter {
         translation += "D;JNE\n";
         instructionPointer += 5;
         writer.write(translation);
+    }
+
+    /**
+     * Writes assembly code that effects the function command
+     *
+     * @param functionName
+     * @param numVars
+     */
+    public void writeFunction(String functionName, int numVars) {
+
+    }
+
+    /**
+     * Writes assembly code that effects the call command
+     *
+     * @param functionName
+     * @param numArgs
+     */
+    public void writeCall(String functionName, int numArgs) {
+
+    }
+
+    /**
+     * Writes assembly code that effects the return command
+     */
+    public void writeReturn() {
+
     }
 
     /**
