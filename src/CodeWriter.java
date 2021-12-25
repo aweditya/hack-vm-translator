@@ -428,8 +428,28 @@ public class CodeWriter {
      * @param functionName
      * @param numVars
      */
-    public void writeFunction(String functionName, int numVars) {
-
+    public void writeFunction(String functionName, int numVars) throws IOException {
+        /*
+        Algorithm:
+        (functionName)            // Declares a label for the function entry
+        repeat numVars times:     // numVars = number of local variables
+            push 0                // Initializes the local variables to 0
+         */
+        String translation = "// function " + functionName + " " + numVars + "\n";
+        translation += "(" + functionName + ")\n";
+        translation += "@" + numVars + "\n"; // 0
+        translation += "D=A\n"; // 1
+        translation += "@" + (instructionPointer + 11) + "\n"; // 2
+        translation += "D;JEQ\n"; // 3
+        translation += "@SP\n"; // 4
+        translation += "A=M\n"; // 5
+        translation += "M=0\n"; // 6
+        translation += "@SP\n"; // 7
+        translation += "M=M+1\n"; // 8
+        translation += "@" + (instructionPointer + 3) + "\n"; // 9
+        translation += "D=D-1;JMP\n"; // 10
+        instructionPointer += 11;
+        writer.write(translation);
     }
 
     /**
@@ -439,7 +459,18 @@ public class CodeWriter {
      * @param numArgs
      */
     public void writeCall(String functionName, int numArgs) {
-
+        /*
+        Algorithm:
+        push returnAddress        // (Using the label declared below)
+        push LCL                  // Saves LCL of the caller
+        push ARG                  // Saves ARG of the caller
+        push THIS                 // Saves THIS of the caller
+        push THAT                 // Saves THAT of the caller
+        ARG = SP - 5 - nArgs      // Repositions ARG
+        LCL = SP                  // Repositions LCL
+        goto functionName         // Transfers control to the called function
+        (returnAddress)           // Declares a label for the return-address
+         */
     }
 
     /**
