@@ -477,7 +477,18 @@ public class CodeWriter {
      * Writes assembly code that effects the return command
      */
     public void writeReturn() {
-
+        /*
+        Algorithm:
+        endFrame = LCL                    // endFrame is a temporary variable
+        retAddress = *(endFrame - 5)      // Gets the return address
+        *ARG = pop()                      // Repositions the return value of the caller
+        SP = ARG + 1                      // Repositions SP of the caller
+        THAT = *(endFrame - 1)            // Restores THAT of the caller
+        THIS = *(endFrame - 2)            // Restores THIS of the caller
+        ARG = *(endFrame - 3)             // Restores ARG of the caller
+        LCL = *(endFrame - 4)             // Restores LCL of the caller
+        goto retAddress                   // Goes to the return address in the caller's code
+         */
     }
 
     /**
