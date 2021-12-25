@@ -15,8 +15,7 @@ public class VMTranslator {
             parser.advance();
             switch (parser.commandType()) {
                 case "C_ARITHMETIC":
-                    String command = parser.arg1();
-                    codeWriter.writeArithmetic(command);
+                    codeWriter.writeArithmetic(parser.arg1());
                     break;
                 case "C_PUSH":
                     codeWriter.writePushPop("push", parser.arg1(), parser.arg2());
@@ -29,8 +28,19 @@ public class VMTranslator {
                     break;
                 case "C_GOTO":
                     codeWriter.writeGoto(parser.arg1());
+                    break;
                 case "C_IF":
                     codeWriter.writeIf(parser.arg1());
+                    break;
+                case "C_FUNCTION":
+                    codeWriter.writeFunction(parser.arg1(), parser.arg2());
+                    break;
+                case "C_CALL":
+                    codeWriter.writeCall(parser.arg1(), parser.arg2());
+                    break;
+                case "C_RETURN":
+                    codeWriter.writeReturn();
+                    break;
                 default:
                     break;
             }
