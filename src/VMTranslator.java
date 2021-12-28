@@ -2,15 +2,21 @@ import java.io.File;
 import java.io.IOException;
 
 public class VMTranslator {
-    private final Parser parser;
+    private final String fileOrDirectoryName;
     private final CodeWriter codeWriter;
 
-    public VMTranslator(File vmCode, String asmFileName) throws IOException {
-        parser = new Parser(vmCode);
+    public VMTranslator(String fileOrDirectoryName) throws IOException {
+        this.fileOrDirectoryName = fileOrDirectoryName;
+        String asmFileName = "";
+        if (fileOrDirectoryName.endsWith(".vm")) {
+            asmFileName = fileOrDirectoryName.substring(0, fileOrDirectoryName.length() - 3) + ".asm";
+        }
         codeWriter = new CodeWriter(asmFileName);
     }
 
     public void translateVMCodeToAssembly() throws IOException {
+        File vmCode = new File(fileOrDirectoryName);
+        Parser parser = new Parser(vmCode);
         while (parser.hasMoreCommands()) {
             parser.advance();
             switch (parser.commandType()) {
@@ -49,11 +55,8 @@ public class VMTranslator {
     }
 
     public static void main(String[] args) throws IOException {
-        String vmPath = "../08/ProgramFlow/FibonacciSeries/FibonacciSeries.vm";
-        File vmCode = new File(vmPath);
-
-        String asmFileName = vmPath.substring(0, vmPath.lastIndexOf('.')) + ".asm";
-        VMTranslator translator = new VMTranslator(vmCode, asmFileName);
+        String fileOrDirectoryName = "../08/ProgramFlow/FibonacciSeries/FibonacciSeries.vm";
+        VMTranslator translator = new VMTranslator(fileOrDirectoryName);
         translator.translateVMCodeToAssembly();
     }
 }
