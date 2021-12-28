@@ -8,7 +8,7 @@ import java.io.IOException;
 public class CodeWriter {
     private final BufferedWriter writer;
     private int instructionPointer;
-    private final String asmFileName;
+    private String asmFileName;
 
     /**
      * Opens the output file/stream and gets ready to write into it
@@ -19,7 +19,6 @@ public class CodeWriter {
         FileWriter assemblyWriter = new FileWriter(asmFileName);
         writer = new BufferedWriter(assemblyWriter);
         instructionPointer = 0;
-        this.asmFileName = asmFileName.substring(asmFileName.lastIndexOf('/') + 1);
     }
 
     /**
@@ -29,7 +28,7 @@ public class CodeWriter {
      * @param filename
      */
     public void setFileName(String filename) {
-
+        asmFileName = filename;
     }
 
     /**
@@ -38,7 +37,11 @@ public class CodeWriter {
      * of the generated *.asm file
      */
     public void writeInit() {
-
+        /*
+        Bootstrap code:
+        SP = 256
+        call Sys.init
+         */
     }
 
     /**
@@ -458,7 +461,7 @@ public class CodeWriter {
      * @param functionName
      * @param numArgs
      */
-    public void writeCall(String functionName, int numArgs) {
+    public void writeCall(String functionName, int numArgs) throws IOException {
         /*
         Algorithm:
         push returnAddress        // (Using the label declared below)
